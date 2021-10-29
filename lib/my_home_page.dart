@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
+
+import 'package:image_picker/image_picker.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -11,6 +14,26 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  Future<File>? _imageFile;
+  File? _file;
+  List? _output;
+  ImagePicker? imagePicker;
+  selectPhotoFromGallery() async {
+    XFile? pickedFile =
+        await imagePicker?.pickImage(source: ImageSource.gallery);
+    _file = File(pickedFile!.path);
+
+    setState(() {
+      _file;
+    });
+  }
+
+  @override
+  void initState() {
+    imagePicker = ImagePicker();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,9 +50,23 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             //
             // ignore: prefer_const_constructors
+            FloatingActionButton(
+              onPressed: () {
+                setState(() {
+                  selectPhotoFromGallery();
+                  print(_file.toString());
+                });
+              },
+              child: const Icon(
+                Icons.home,
+              ),
+            ),
             MaskedImage(
-              image: const NetworkImage(
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7NCeIag5T-N2HrAs_KKWzJIfHG3Dn4l4ySQ&usqp=CAU"),
+              image: _file != null
+                  ? AssetImage("assets/images.png")
+                  : const AssetImage(
+                      "assets/download.png",
+                    ),
               child: Text(
                 "KHMER",
                 style: TextStyle(
