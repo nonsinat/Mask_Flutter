@@ -14,9 +14,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  // ignore: unused_field
   Future<File>? _imageFile;
   File? _file;
-  List? _output;
+
   ImagePicker? imagePicker;
   selectPhotoFromGallery() async {
     XFile? pickedFile =
@@ -54,6 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 setState(() {
                   selectPhotoFromGallery();
+                  // ignore: avoid_print
                   print(_file.toString());
                 });
               },
@@ -63,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             MaskedImage(
               image: _file != null
-                  ? AssetImage("assets/images.png")
+                  ? const AssetImage("assets/images.png")
                   : const AssetImage(
                       "assets/download.png",
                     ),
